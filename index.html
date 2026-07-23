@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>飞书链接</title>
+    <style>
+        /* ----- 全局重置 ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
+        /* ----- 卡片容器 ----- */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+            padding: 40px 28px 36px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* ----- 图标 / Logo ----- */
+        .icon-wrap {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 44px;
+        }
+
+        .icon-wrap.mobile {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .icon-wrap.desktop {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        /* ----- 标题 ----- */
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        /* ----- 描述文字 ----- */
+        .desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555770;
+            margin-bottom: 28px;
+        }
+
+        .desc strong {
+            color: #1a1a2e;
+        }
+
+        /* ----- 按钮 / 链接 ----- */
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            background: #3370ff;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(51, 112, 255, 0.30);
+        }
+
+        .btn:hover {
+            background: #285bd4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(51, 112, 255, 0.35);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ----- 飞书品牌色按钮（手机端） ----- */
+        .btn-feishu {
+            background: #3370ff;
+            box-shadow: 0 6px 20px rgba(51, 112, 255, 0.30);
+        }
+
+        .btn-feishu:hover {
+            background: #285bd4;
+            box-shadow: 0 10px 28px rgba(51, 112, 255, 0.35);
+        }
+
+        /* ----- 辅助提示（电脑端显示二维码等） ----- */
+        .hint {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #999aa8;
+            border-top: 1px solid #ededf0;
+            padding-top: 22px;
+        }
+
+        .hint .emoji {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        /* ----- 手机端额外装饰 ----- */
+        .feishu-badge {
+            display: inline-block;
+            background: #f0f5ff;
+            color: #3370ff;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 16px;
+            border-radius: 40px;
+            margin-bottom: 18px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ----- 响应式微调 ----- */
+        @media (max-width: 480px) {
+            .container {
+                padding: 32px 20px 28px;
+            }
+            .title {
+                font-size: 20px;
+            }
+            .btn {
+                padding: 13px 30px;
+                font-size: 16px;
+            }
+        }
+
+        /* ----- 电脑端特殊提示（更明显的引导） ----- */
+        .desktop-hint-box {
+            background: #fff8e7;
+            border-radius: 16px;
+            padding: 18px 16px;
+            margin: 12px 0 20px;
+            border-left: 4px solid #ffb300;
+        }
+
+        .desktop-hint-box p {
+            font-size: 14px;
+            color: #6d5d2b;
+            margin: 0;
+        }
+
+        .desktop-hint-box .big-emoji {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* 手机扫描示意（装饰） */
+        .qr-placeholder {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto 0;
+            background: #eef0f5;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #b0b3c0;
+            border: 2px dashed #d0d3dd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <!-- 由 JavaScript 动态渲染 -->
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- 配置：在这里替换成你的飞书链接 -----
+            const FEISHU_URL = 'https://mcn0og8wyjoy.feishu.cn/wiki/R8qPwcEV2iGstAklaiuc0HsBnkh?from=from_copylink'; // ← 改成你的飞书链接
+
+            // ----- 设备检测（增强版） -----
+            function detectDevice() {
+                const ua = navigator.userAgent || '';
+                const width = window.innerWidth;
+
+                // 1. 通过 User-Agent 判断
+                const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
+
+                // 2. 通过屏幕宽度辅助判断（小于 768px 视为移动端）
+                const isMobileWidth = width < 768;
+
+                // 3. 检测是否为平板（iPad 等）—— 通常我们也归为「手机端」以便显示链接
+                const isTablet = /iPad|Android(?!.*Mobile)/i.test(ua) && width >= 768 && width < 1024;
+
+                // 综合判断：只要满足 UA 移动 或 宽度移动 或 平板，都视为「移动端」
+                const isMobile = isMobileUA || isMobileWidth || isTablet;
+
+                return {
+                    isMobile: isMobile,
+                    isDesktop: !isMobile,
+                    ua: ua,
+                    width: width
+                };
+            }
+
+            // ----- 渲染页面 -----
+            function render() {
+                const app = document.getElementById('app');
+                const device = detectDevice();
+
+                if (device.isMobile) {
+                    // ---------- 手机端：显示飞书链接 ----------
+                    app.innerHTML = `
+                        <div class="icon-wrap mobile">📱</div>
+                        <div class="feishu-badge">✦ 飞书 · 移动端</div>
+                        <div class="title">🎯 欢迎来到飞书</div>
+                        <div class="desc">
+                            点击下方按钮，直接打开飞书链接<br />
+                            <span style="font-size:13px;color:#999;">已检测到您正在使用手机</span>
+                        </div>
+                        <a href="${FEISHU_URL}" class="btn btn-feishu" target="_blank" rel="noopener noreferrer">
+                            打开飞书链接 →
+                        </a>
+                        <div class="hint">
+                            <span class="emoji">💡</span> 如果无法跳转，请复制链接到浏览器打开
+                        </div>
+                    `;
+                } else {
+                    // ---------- 电脑端：提示用手机打开 ----------
+                    app.innerHTML = `
+                        <div class="icon-wrap desktop">💻</div>
+                        <div class="title">📢 请使用手机打开</div>
+                        <div class="desc">
+                            此内容专为<strong>移动端</strong>优化，<br />
+                            请用手机扫描下方二维码或直接访问。
+                        </div>
+
+                        <div class="desktop-hint-box">
+                            <span class="big-emoji">👆</span>
+                            <p><strong>用手机扫一扫</strong> 或 <strong>复制链接</strong> 到手机浏览器</p>
+                        </div>
+
+                        <!-- 装饰二维码区（实际可替换为真实二维码） -->
+                        <div class="qr-placeholder">
+                            📲
+                        </div>
+                        <div style="margin: 8px 0 16px; font-size:12px; color:#aaa;">
+                            二维码占位 · 请替换为您的飞书链接二维码
+                        </div>
+
+                        <div style="margin-top: 6px; word-break: break-all; background:#f8f9fc; padding:12px 14px; border-radius:12px; font-size:13px; color:#666; border:1px solid #eaeef5;">
+                            <span style="font-weight:500; color:#333;">链接：</span><br />
+                            ${FEISHU_URL}
+                        </div>
+
+                        <div class="hint">
+                            <span class="emoji">📌</span> 检测到您正在使用电脑，请换手机访问
+                        </div>
+                    `;
+                }
+            }
+
+            // ----- 窗口变化时重新检测（防抖） -----
+            let resizeTimer = null;
+            function handleResize() {
+                if (resizeTimer) clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    render();
+                    resizeTimer = null;
+                }, 300);
+            }
+
+            // ----- 初始化 -----
+            render();
+            window.addEventListener('resize', handleResize);
+
+            // 可选：页面可见性变化时刷新（用户切换设备时）
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    render();
+                }
+            });
+
+            console.log('[设备检测] 当前设备信息:', detectDevice());
+
+        })();
+    </script>
+
+</body>
+</html>
