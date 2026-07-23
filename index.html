@@ -176,19 +176,20 @@
             margin-bottom: 6px;
         }
 
-        /* 手机扫描示意（装饰） */
-        .qr-placeholder {
-            width: 100px;
-            height: 100px;
-            margin: 10px auto 0;
-            background: #eef0f5;
+        /* 二维码图片样式 */
+        .qr-image {
+            width: 160px;
+            height: 160px;
+            margin: 12px auto;
+            display: block;
             border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            color: #b0b3c0;
-            border: 2px dashed #d0d3dd;
+            border: 2px solid #eef0f5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .qr-caption {
+            font-size: 13px;
+            color: #666;
+            margin: 6px 0 16px;
         }
     </style>
 </head>
@@ -202,8 +203,8 @@
         (function() {
             'use strict';
 
-            // ----- 配置：在这里替换成你的飞书链接 -----
-            const FEISHU_URL = 'https://mcn0og8wyjoy.feishu.cn/wiki/R8qPwcEV2iGstAklaiuc0HsBnkh?from=from_copylink'; // ← 改成你的飞书链接
+            // ----- 配置：替换为你的飞书链接（已使用你提供的链接） -----
+            const FEISHU_URL = 'https://mcn0og8wyjoy.feishu.cn/wiki/R8qPwcEV2iGstAklaiuc0HsBnkh?from=from_copylink';
 
             // ----- 设备检测（增强版） -----
             function detectDevice() {
@@ -253,7 +254,7 @@
                         </div>
                     `;
                 } else {
-                    // ---------- 电脑端：提示用手机打开 ----------
+                    // ---------- 电脑端：提示用手机打开，并显示二维码图片 ----------
                     app.innerHTML = `
                         <div class="icon-wrap desktop">💻</div>
                         <div class="title">📢 请使用手机打开</div>
@@ -267,13 +268,9 @@
                             <p><strong>用手机扫一扫</strong> 或 <strong>复制链接</strong> 到手机浏览器</p>
                         </div>
 
-                        <!-- 装饰二维码区（实际可替换为真实二维码） -->
-                        <div class="qr-placeholder">
-                            📲
-                        </div>
-                        <div style="margin: 8px 0 16px; font-size:12px; color:#aaa;">
-                            二维码占位 · 请替换为您的飞书链接二维码
-                        </div>
+                        <!-- 显示同目录下的 qrcode.png 图片 -->
+                        <img src="qrcode.png" alt="飞书链接二维码" class="qr-image" />
+                        <div class="qr-caption">扫一扫，立即打开飞书</div>
 
                         <div style="margin-top: 6px; word-break: break-all; background:#f8f9fc; padding:12px 14px; border-radius:12px; font-size:13px; color:#666; border:1px solid #eaeef5;">
                             <span style="font-weight:500; color:#333;">链接：</span><br />
